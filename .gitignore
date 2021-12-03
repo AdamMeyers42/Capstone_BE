@@ -126,3 +126,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+drf_jwt_capstone_backend\drf_jwt_capstone_backend\local_settings.py
