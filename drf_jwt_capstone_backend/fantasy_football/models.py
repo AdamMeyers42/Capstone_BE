@@ -6,3 +6,13 @@ User = get_user_model()
 class UserPlayer(models.Model):
     playerId = models.CharField(max_length=50, blank=True)
     User = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+
+class InjuryReport(models.Model):
+    injury = models.CharField(max_length=50, blank=True)
+    duration = models.CharField(max_length=50, blank=True)
+    UserPlayer = models.ForeignKey(UserPlayer)
+
+class Team(models.Model):
+    teamName = models.CharField(max_length=50, blank=True)
+    playerPosition = models.CharField(max_length=20, blank=True)
+    UserPlayer = models.ForeignKey(UserPlayer)
