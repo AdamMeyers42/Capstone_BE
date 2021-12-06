@@ -19,7 +19,7 @@ class TeamSerializer(serializers.ModelSerializer):
 class CommentBoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentBoard
-        fields = ['Comment','UserPlayer']
+        fields = ['comment','User_id']
 
 # class UserPreferenceSerializer(serializers.ModelSerializer):
 #     class Mega:

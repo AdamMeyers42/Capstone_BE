@@ -20,12 +20,13 @@ class Team(models.Model):
     UserPlayer = models.ForeignKey(UserPlayer, on_delete=models.CASCADE)
 
 class CommentBoard(models.Model):
-    comment = models.CharField(max_length=50, blank=True)
-    UserPlayer = models.ForeignKey(UserPlayer, on_delete=models.CASCADE)
+    comment = models.TextField(max_length=200, blank=True)
+    User = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
 
 # class UserPreference(models.Model):
 #     UserPlayer = models.ForeignKey(UserPlayer)
 #     CommentBoard = models.ForeignKey(CommentBoard)
 #     value = models.IntegerField(default=0)
 #     date = models.DateTimeField(auto_now=True)
+
 
