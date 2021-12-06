@@ -22,5 +22,6 @@ from fantasy_football import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('authentication.urls')),
-    path('injury/', views.InjuryReport.as_view()),
+    path('injury/', views.InjuryReports.as_view()),
+    path('injury/<int:pk>', views.InjuryReports.as_view()),
 ]
