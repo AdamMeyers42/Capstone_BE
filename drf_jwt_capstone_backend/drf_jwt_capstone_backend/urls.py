@@ -27,5 +27,7 @@ urlpatterns = [
     path('comment/', views.CommentBoards.as_view()),
     path('comment/<int:pk>', views.CommentBoards.as_view()),
     path('team/', views.Teams.as_view()),
-    path('team/<int:fk>', views.Teams.as_view()),
+    path('team/<int:pk>', views.Teams.as_view()),
+    path('userplayer/', views.UserPlayers.as_view()),
+    path('userplayer/<int:pk>', views.UserPlayers.as_view()),
 ]
