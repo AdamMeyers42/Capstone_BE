@@ -12,6 +12,7 @@ from .serializers import CommentBoardSerializer, UserPlayerSerializer, InjuryRep
 
 
 class InjuryReports(APIView):
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         injury = InjuryReport.objects.all()
@@ -45,6 +46,7 @@ class InjuryReports(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class CommentBoards(APIView):
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         comments = CommentBoard.objects.all()
@@ -70,11 +72,18 @@ class CommentBoards(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class Teams(APIView):
+    # permission_classes = [IsAuthenticated]
 
     def get(self,request):
         team = Team.objects.all()
         serializer = TeamSerializer(team, many=True)
         return Response(serializer.data)
+    
+    def get_userteam(self, pk):
+        try:
+            return Team.objects.get(pk=pk)
+        except Team.DoesNotExist:
+            raise status.HTTP_404_NOT_FOUND
 
     def post(self, request):
         serializer = TeamSerializer(data=request.data)
@@ -82,3 +91,8 @@ class Teams(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk):
+        delete_team = self.get_userteam(pk)
+        delete_team.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

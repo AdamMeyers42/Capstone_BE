@@ -4,7 +4,7 @@ from .models import CommentBoard, InjuryReport, Team, UserPlayer
 class UserPlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPlayer
-        fields = ['PlayerId', 'User']
+        fields = ['playerId', 'User']
 
 class InjuryReportSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +14,7 @@ class InjuryReportSerializer(serializers.ModelSerializer):
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = ['TeamName', 'PlayerPosition', 'UserPlayer']
+        fields = ['teamName', 'playerPosition', 'UserPlayer']
 
 class CommentBoardSerializer(serializers.ModelSerializer):
     class Meta:

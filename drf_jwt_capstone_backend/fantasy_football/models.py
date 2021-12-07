@@ -17,7 +17,7 @@ class InjuryReport(models.Model):
 class Team(models.Model):
     teamName = models.CharField(max_length=50, blank=True)
     playerPosition = models.CharField(max_length=20, blank=True)
-    UserPlayer = models.ForeignKey(UserPlayer, on_delete=models.CASCADE)
+    UserPlayer = models.ForeignKey(UserPlayer, null=True, on_delete=models.CASCADE)
 
 class CommentBoard(models.Model):
     comment = models.TextField(max_length=200, blank=True)

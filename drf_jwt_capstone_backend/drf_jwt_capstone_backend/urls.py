@@ -26,4 +26,6 @@ urlpatterns = [
     path('injury/<int:pk>', views.InjuryReports.as_view()),
     path('comment/', views.CommentBoards.as_view()),
     path('comment/<int:pk>', views.CommentBoards.as_view()),
+    path('team/', views.Teams.as_view()),
+    path('team/<int:fk>', views.Teams.as_view()),
 ]
