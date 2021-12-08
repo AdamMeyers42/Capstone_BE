@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'authentication.apps.AuthenticationConfig',
     'corsheaders',
-    'fantasy_football.apps.FantasyFootballConfig'
+    'fantasy_football.apps.FantasyFootballConfig',
+    # 'authentication.User'
 ]
 
 MIDDLEWARE = [
