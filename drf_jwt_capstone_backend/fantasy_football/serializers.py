@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.fields import CharField
 from .models import CommentBoard, InjuryReport, Team, UserPlayer, Comment
 
 class UserPlayerSerializer(serializers.ModelSerializer):
@@ -26,6 +27,16 @@ class CommentSerializer(serializers.Serializer):
     comment = serializers.CharField(max_length=200)
     commentId = serializers.IntegerField()
 
+
+class PlayerDetailSerializer(serializers.Serializer):
+    id = serializers.CharField(max_length=35)
+    firstName = serializers.CharField(max_length=35)
+    lastName = serializers.CharField(max_length=35)
+    primaryPosition = serializers.CharField(max_length=10)
+    officialImageSrc = serializers.CharField(max_length=500)
+
+class PlayerSerializer(serializers.Serializer):
+    player = PlayerDetailSerializer()
 
 # class UserPreferenceSerializer(serializers.ModelSerializer):
 #     class Mega:

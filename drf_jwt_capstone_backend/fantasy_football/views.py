@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.views import Response 
-from rest_framework import status
+from rest_framework import serializers, status
 from rest_framework.views import APIView
 from django.http.response import HttpResponse
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import CommentBoard, UserPlayer, InjuryReport, Team, Comment
-from .serializers import CommentBoardSerializer, UserPlayerSerializer, InjuryReportSerializer, TeamSerializer, CommentSerializer
+from .serializers import CommentBoardSerializer, PlayerDetailSerializer, PlayerSerializer, UserPlayerSerializer, InjuryReportSerializer, TeamSerializer, CommentSerializer
+import requests
+import json
 
 class InjuryReports(APIView):
     # permission_classes = [IsAuthenticated]
@@ -106,7 +108,7 @@ class UserPlayers(APIView):
         team = UserPlayer.objects.all()
         serializer = UserPlayerSerializer(team, many=True)
         return Response(serializer.data)
-
+ 
     def get_userplayer(self, pk):
         try:
             return UserPlayer.objects.get(pk=pk)
@@ -124,3 +126,17 @@ class UserPlayers(APIView):
         delete_userplayer = self.get_userplayer(pk)
         delete_userplayer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class Players(APIView):
+
+    def get(self,request):
+        headers = {'Authorization': 'Basic MDA1ZWY3YTAtZmFhMC00YTE4LTkwOTItYjM1NWQwOk1ZU1BPUlRTRkVFRFM='}
+        r = requests.get('https://api.mysportsfeeds.com/v2.1/pull/nfl/players.json?limit=10', headers=headers)
+        data = json.loads(r.text)
+        players = data.get('players')
+        serializer = PlayerSerializer(players, many=True)
+        return Response(serializer.data)
+
+
+    
+
