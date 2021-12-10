@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import CommentBoard, InjuryReport, Team, UserPlayer
+from .models import CommentBoard, InjuryReport, Team, UserPlayer, Comment
 
 class UserPlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPlayer
-        fields = ['playerId', 'User']
+        fields = ['playerId', 'userId']
 
 class InjuryReportSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,12 +14,18 @@ class InjuryReportSerializer(serializers.ModelSerializer):
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = ['teamName', 'playerPosition', 'UserPlayer']
+        fields = ['teamName', 'playerPosition', 'userPlayerId']
 
 class CommentBoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentBoard
-        fields = ['comment','User_id']
+        fields = ['comment','userId']
+
+class CommentSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=30)
+    comment = serializers.CharField(max_length=200)
+    commentId = serializers.IntegerField()
+
 
 # class UserPreferenceSerializer(serializers.ModelSerializer):
 #     class Mega:

@@ -5,11 +5,8 @@ from rest_framework import status
 from rest_framework.views import APIView
 from django.http.response import HttpResponse
 from rest_framework.permissions import IsAuthenticated, AllowAny
-
-from .models import CommentBoard, UserPlayer, InjuryReport, Team
-from .serializers import CommentBoardSerializer, UserPlayerSerializer, InjuryReportSerializer, TeamSerializer
-
-
+from .models import CommentBoard, UserPlayer, InjuryReport, Team, Comment
+from .serializers import CommentBoardSerializer, UserPlayerSerializer, InjuryReportSerializer, TeamSerializer, CommentSerializer
 
 class InjuryReports(APIView):
     # permission_classes = [IsAuthenticated]
@@ -46,18 +43,17 @@ class InjuryReports(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class CommentBoards(APIView):
-    # permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        comments = CommentBoard.objects.all()
-        serializer = CommentBoardSerializer(comments, many=True)
-        return Response(serializer.data)
+    permission_classes = [AllowAny]
     
-    def get_comment(self, pk):
-        try:
-            return CommentBoard.objects.get(pk=pk)
-        except CommentBoard.DoesNotExist:
-            raise status.HTTP_404_NOT_FOUND
+    def get(self, request):
+        comments = []
+        for c in CommentBoard.objects.all():
+            comments.append(Comment(c.userId, c.comment, c.id))
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+class CommentBoardsAuthenticated(APIView):
+    permission_classes = [IsAuthenticated]
     
     def post(self, request):
         serializer = CommentBoardSerializer(data=request.data)
@@ -66,6 +62,12 @@ class CommentBoards(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    def get_comment(self, pk):
+        try:
+            return CommentBoard.objects.get(pk=pk)
+        except CommentBoard.DoesNotExist:
+            raise status.HTTP_404_NOT_FOUND
+
     def delete(self, request, pk):
         delete_comment = self.get_comment(pk)
         delete_comment.delete()

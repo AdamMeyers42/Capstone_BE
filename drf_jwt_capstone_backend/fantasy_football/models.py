@@ -5,7 +5,7 @@ User = get_user_model()
 # Create your models here.
 class UserPlayer(models.Model):
     playerId = models.CharField(max_length=50, blank=True)
-    User = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    userId = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, db_column='userId')
 
 class InjuryReport(models.Model):
     playerTeam = models.CharField(max_length=50, blank=True)
@@ -17,11 +17,17 @@ class InjuryReport(models.Model):
 class Team(models.Model):
     teamName = models.CharField(max_length=50, blank=True)
     playerPosition = models.CharField(max_length=20, blank=True)
-    UserPlayer = models.ForeignKey(UserPlayer, null=True, on_delete=models.CASCADE)
+    userPlayer = models.ForeignKey(UserPlayer, null=True, on_delete=models.CASCADE, db_column='userPlayerId')
 
 class CommentBoard(models.Model):
     comment = models.TextField(max_length=200, blank=True)
-    User = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    userId = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, db_column='userId')
+
+class Comment:
+  def __init__(self, username, comment, commentId):
+    self.commentId = commentId
+    self.username = username
+    self.comment = comment
 
 # class UserPreference(models.Model):
 #     UserPlayer = models.ForeignKey(UserPlayer)
