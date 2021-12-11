@@ -10,7 +10,7 @@ class UserPlayerSerializer(serializers.ModelSerializer):
 class InjuryReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = InjuryReport
-        fields = ['playerTeam', 'playerName', 'injury', 'duration']
+        fields = ['id','playerTeam', 'playerName', 'injury', 'duration']
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:

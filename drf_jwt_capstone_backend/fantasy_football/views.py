@@ -115,17 +115,17 @@ class UserPlayers(APIView):
         except Team.DoesNotExist:
             raise status.HTTP_404_NOT_FOUND
     
-    def post(self, request):
-        serializer = UserPlayerSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-        teamJson = '{"teamName":"my cool team", "playerPosition":"QB" "userPlayer":7}'
-        # team = Team()
-        teamSerializer = TeamSerializer(data=teamJson)
-        if teamSerializer.is_valid():
-            teamSerializer.save()
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # def post(self, request):
+    #     serializer = UserPlayerSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #     teamJson = '{"teamName":"my cool team", "playerPosition":"QB" "userPlayer":7}'
+    #     # team = Team()
+    #     teamSerializer = TeamSerializer(data=teamJson)
+    #     if teamSerializer.is_valid():
+    #         teamSerializer.save()
+    #         # return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, pk):
         delete_userplayer = self.get_userplayer(pk)
