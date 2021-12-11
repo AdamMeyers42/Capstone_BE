@@ -119,7 +119,12 @@ class UserPlayers(APIView):
         serializer = UserPlayerSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        teamJson = '{"teamName":"my cool team", "playerPosition":"QB" "userPlayer":7}'
+        # team = Team()
+        teamSerializer = TeamSerializer(data=teamJson)
+        if teamSerializer.is_valid():
+            teamSerializer.save()
+            # return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, pk):
@@ -137,6 +142,24 @@ class Players(APIView):
         serializer = PlayerSerializer(players, many=True)
         return Response(serializer.data)
 
+    def post(self, request):
+        serializer = UserPlayerSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        teamName = request.data.get("teamName")
+        playerPosition = request.data.get("playerPosition")
+        userId = request.data.get("userId")
+        playerId = request.data.get("playerId")
+        userPlayer = UserPlayer.objects.get(userId = userId, playerId = playerId)   
+        userPlayerId = userPlayer.id
+        teamJson = f'{{"teamName":"{teamName}", "playerPosition":"{playerPosition}", "userPlayerId":{userPlayerId}}}'
+        # team = Team()
+        test = json.loads(teamJson)
+        teamSerializer = TeamSerializer(data=test)
+        if teamSerializer.is_valid():
+            teamSerializer.save()
+            return Response(teamSerializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
 

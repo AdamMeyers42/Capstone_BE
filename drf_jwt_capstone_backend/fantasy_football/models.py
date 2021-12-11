@@ -13,11 +13,10 @@ class InjuryReport(models.Model):
     injury = models.CharField(max_length=50, blank=True)
     duration = models.CharField(max_length=50, blank=True)
 
-
 class Team(models.Model):
     teamName = models.CharField(max_length=50, blank=True)
     playerPosition = models.CharField(max_length=20, blank=True)
-    userPlayer = models.ForeignKey(UserPlayer, null=True, on_delete=models.CASCADE, db_column='userPlayerId')
+    userPlayerId = models.ForeignKey(UserPlayer, null=True, on_delete=models.CASCADE, db_column='userPlayerId')
 
 class CommentBoard(models.Model):
     comment = models.TextField(max_length=200, blank=True)
