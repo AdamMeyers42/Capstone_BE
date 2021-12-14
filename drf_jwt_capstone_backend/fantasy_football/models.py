@@ -17,6 +17,7 @@ class Team(models.Model):
     teamName = models.CharField(max_length=50, blank=True)
     playerPosition = models.CharField(max_length=20, blank=True)
     userPlayerId = models.ForeignKey(UserPlayer, null=True, on_delete=models.CASCADE, db_column='userPlayerId')
+    favoriteStatus = models.BooleanField()
 
 class CommentBoard(models.Model):
     comment = models.TextField(max_length=200, blank=True)
@@ -27,6 +28,16 @@ class Comment:
     self.commentId = commentId
     self.username = username
     self.comment = comment
+
+class FantasyPlayer:
+    def __init__(self, teamName, playerPosition, userPlayerId, favoriteStatus, firstName, lastName, officialImageSrc):
+        self.teamName = teamName
+        self.playerPosition = playerPosition
+        self.userPlayerId = userPlayerId
+        self.favoriteStatus = favoriteStatus
+        self.firstName = firstName
+        self.lastName = lastName
+        self.officialImageSrc = officialImageSrc
 
 # class UserPreference(models.Model):
 #     UserPlayer = models.ForeignKey(UserPlayer)

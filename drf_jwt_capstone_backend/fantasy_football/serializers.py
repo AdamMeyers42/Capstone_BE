@@ -15,7 +15,7 @@ class InjuryReportSerializer(serializers.ModelSerializer):
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = ['teamName', 'playerPosition', 'userPlayerId']
+        fields = ['teamName', 'playerPosition', 'userPlayerId', 'favoriteStatus']
 
 class CommentBoardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,7 +38,11 @@ class PlayerDetailSerializer(serializers.Serializer):
 class PlayerSerializer(serializers.Serializer):
     player = PlayerDetailSerializer()
 
-# class UserPreferenceSerializer(serializers.ModelSerializer):
-#     class Mega:
-#         model = UserPreference
-#         fields = ['UserPlayer', 'CommentBoard', 'Value', 'Date']
+class FantasyPlayerSerializer(serializers.Serializer):
+    teamName = serializers.CharField(max_length=35)
+    playerPosition = serializers.CharField(max_length=35)
+    userPlayerId = serializers.CharField(max_length=35)
+    favoriteStatus = serializers.CharField(max_length=35)
+    firstName = serializers.CharField(max_length=35)
+    lastName = serializers.CharField(max_length=35)
+    officialImageSrc = serializers.CharField(max_length=500)

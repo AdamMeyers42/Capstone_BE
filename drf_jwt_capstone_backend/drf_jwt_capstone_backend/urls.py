@@ -32,4 +32,5 @@ urlpatterns = [
     path('userplayer/', views.UserPlayers.as_view()),
     path('userplayer/<int:pk>', views.UserPlayers.as_view()),
     path('players/', views.Players.as_view()),
+    path('favorites/', views.FavoritePlayers.as_view()),
 ]
