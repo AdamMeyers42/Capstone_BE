@@ -24,10 +24,10 @@ class CommentBoard(models.Model):
     userId = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, db_column='userId')
 
 class Comment:
-  def __init__(self, username, comment, commentId):
-    self.commentId = commentId
-    self.username = username
-    self.comment = comment
+    def __init__(self, username, comment, commentId):
+        self.commentId = commentId
+        self.username = username
+        self.comment = comment
 
 class FantasyPlayer:
     def __init__(self, teamName, playerPosition, userPlayerId, favoriteStatus, firstName, lastName, officialImageSrc):
@@ -39,10 +39,13 @@ class FantasyPlayer:
         self.lastName = lastName
         self.officialImageSrc = officialImageSrc
 
-# class UserPreference(models.Model):
-#     UserPlayer = models.ForeignKey(UserPlayer)
-#     CommentBoard = models.ForeignKey(CommentBoard)
-#     value = models.IntegerField(default=0)
-#     date = models.DateTimeField(auto_now=True)
+class FavoritePlayer:
+    def __init__(self, firstName, lastName, officialImageSrc ):
+        self.firstName = firstName
+        self.lastName = lastName
+        self.officialImageSrc = officialImageSrc
+
+
+
 
 

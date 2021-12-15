@@ -26,7 +26,10 @@ class CommentSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=30)
     comment = serializers.CharField(max_length=200)
     commentId = serializers.IntegerField()
-
+    
+class CurrentTeamSerializer(serializers.Serializer):
+    id = serializers.CharField(max_length=35)
+    abbreviation = serializers.CharField(max_length=35)
 
 class PlayerDetailSerializer(serializers.Serializer):
     id = serializers.CharField(max_length=35)
@@ -34,6 +37,7 @@ class PlayerDetailSerializer(serializers.Serializer):
     lastName = serializers.CharField(max_length=35)
     primaryPosition = serializers.CharField(max_length=10)
     officialImageSrc = serializers.CharField(max_length=500)
+    currentTeam = CurrentTeamSerializer()
 
 class PlayerSerializer(serializers.Serializer):
     player = PlayerDetailSerializer()
