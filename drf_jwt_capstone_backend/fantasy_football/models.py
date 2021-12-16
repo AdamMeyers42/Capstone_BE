@@ -30,7 +30,7 @@ class Comment:
         self.comment = comment
 
 class FantasyPlayer:
-    def __init__(self, teamName, playerPosition, userPlayerId, favoriteStatus, firstName, lastName, officialImageSrc):
+    def __init__(self, teamName, playerPosition, userPlayerId, favoriteStatus, firstName, lastName, officialImageSrc, passing, rushing, receiving):
         self.teamName = teamName
         self.playerPosition = playerPosition
         self.userPlayerId = userPlayerId
@@ -38,6 +38,9 @@ class FantasyPlayer:
         self.firstName = firstName
         self.lastName = lastName
         self.officialImageSrc = officialImageSrc
+        self.passing = passing
+        self.rushing = rushing
+        self.receiving = receiving
 
 class FavoritePlayer:
     def __init__(self, firstName, lastName, officialImageSrc ):
@@ -45,6 +48,9 @@ class FavoritePlayer:
         self.lastName = lastName
         self.officialImageSrc = officialImageSrc
 
+class SearchTerm(models.Model):
+    userId = models.TextField(max_length=200, blank=True)
+    searchTerm = models.TextField(max_length=200, blank=True)
 
 
 

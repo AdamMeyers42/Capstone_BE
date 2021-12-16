@@ -5,8 +5,8 @@ from rest_framework import serializers, status
 from rest_framework.views import APIView
 from django.http.response import HttpResponse
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import CommentBoard, FantasyPlayer, UserPlayer, InjuryReport, Team, Comment
-from .serializers import CommentBoardSerializer, FantasyPlayerSerializer, PlayerDetailSerializer, PlayerSerializer, UserPlayerSerializer, InjuryReportSerializer, TeamSerializer, CommentSerializer
+from .models import CommentBoard, FantasyPlayer, SearchTerm, UserPlayer, InjuryReport, Team, Comment
+from .serializers import CommentBoardSerializer, FantasyPlayerSerializer, PlayerDetailSerializer, PlayerSerializer, SearchTermSerializer, UserPlayerSerializer, InjuryReportSerializer, TeamSerializer, CommentSerializer
 import requests
 import json
 
@@ -114,7 +114,10 @@ class Teams(APIView):
                 team.favoriteStatus,
                 currentPlayer.get("player").get("firstName"),
                 currentPlayer.get("player").get("lastName"),
-                currentPlayer.get("player").get("officialImageSrc")
+                currentPlayer.get("player").get("officialImageSrc"),
+                "",
+                "",
+                "",
             ))
                         
         fpSerializer = FantasyPlayerSerializer(fantasyPlayers,many=True)
@@ -189,8 +192,10 @@ class Players(APIView):
         headers = {'Authorization': 'Basic MDA1ZWY3YTAtZmFhMC00YTE4LTkwOTItYjM1NWQwOk1ZU1BPUlRTRkVFRFM='}
         url = ""
         searchTerm = request.query_params.get("searchTerm")
-        if (searchTerm != ""):
+        userId = request.query_params.get("userId")
+        if (searchTerm is not None):
             url = f'https://api.mysportsfeeds.com/v2.1/pull/nfl/current/player_stats_totals.json?limit=10&position={searchTerm}'
+            SearchTerm.objects.create(searchTerm=searchTerm,userId=userId)
         else:
             url = 'https://api.mysportsfeeds.com/v2.1/pull/nfl/current/player_stats_totals.json?limit=10'
         r = requests.get(url, headers=headers)
@@ -226,25 +231,17 @@ class FavoritePlayers(APIView):
         userId = str(request.query_params.get("userId"))
         userPlayers = UserPlayer.objects.filter(userId=userId)
 
-
         userPlayerIds = []
         for userPlayer in userPlayers:
             userPlayerIds.append(userPlayer.id)
         teams = Team.objects.filter(userPlayerId__in=userPlayerIds, favoriteStatus=True)
-
-
         playerIds = []
         for userPlayer in userPlayers:
             playerIds.append(userPlayer.playerId)
 
-
         headers = {'Authorization': 'Basic MDA1ZWY3YTAtZmFhMC00YTE4LTkwOTItYjM1NWQwOk1ZU1BPUlRTRkVFRFM='}
         players = ','.join(playerIds)
         r = requests.get(f'https://api.mysportsfeeds.com/v2.1/pull/nfl/current/player_stats_totals.json?player={players}', headers=headers)
-        
-        # https://api.mysportsfeeds.com/v2.1/pull/nfl/players.json
-        
-        
         data = json.loads(r.text)
 
         fantasyPlayers = []
@@ -262,21 +259,20 @@ class FavoritePlayers(APIView):
                 team.favoriteStatus,
                 currentPlayer.get("player").get("firstName"),
                 currentPlayer.get("player").get("lastName"),
-                currentPlayer.get("player").get("officialImageSrc")
+                currentPlayer.get("player").get("officialImageSrc"),
+                currentPlayer.get("stats").get("passing"),
+                currentPlayer.get("stats").get("rushing"),
+                currentPlayer.get("stats").get("receiving"),
             ))
                         
         fpSerializer = FantasyPlayerSerializer(fantasyPlayers,many=True)
         return Response(fpSerializer.data)
 
-    # def get(self,request):
+class SearchTerms(APIView):
 
-    #     headers = {'Authorization': 'Basic MDA1ZWY3YTAtZmFhMC00YTE4LTkwOTItYjM1NWQwOk1ZU1BPUlRTRkVFRFM='}
-    #     players = ','.join(playerIds)
-    #     r = requests.get(f'https://api.mysportsfeeds.com/v2.1/pull/nfl/current/player_stats_totals.json?player={players}', headers=headers) 
-    #     data = json.loads(r.text)
-    #     players = data.get('players')
-    #     teamSerializer = TeamSerializer(data=test)
-    #     if teamSerializer.is_valid():
-    #         teamSerializer.save()
-    #         return Response(teamSerializer.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self,request):
+        userId = request.query_params.get("userId")
+        terms = SearchTerm.objects.filter(userId=userId)
+        serializer = SearchTermSerializer(terms, many=True)
+        return Response(serializer.data)

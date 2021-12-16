@@ -35,4 +35,5 @@ urlpatterns = [
     path('players/<int:pk>', views.Players.as_view()),
     path('favorites/', views.FavoritePlayers.as_view()),
     path('favorites/<int:pk>', views.FavoritePlayers.as_view()),
+    path('searchTerms/', views.SearchTerms.as_view()),
 ]

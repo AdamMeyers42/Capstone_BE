@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.fields import CharField
-from .models import CommentBoard, InjuryReport, Team, UserPlayer, Comment
+from .models import CommentBoard, InjuryReport, Team, UserPlayer, Comment, SearchTerm
 
 class UserPlayerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,6 +21,11 @@ class CommentBoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentBoard
         fields = ['comment','userId']
+
+class SearchTermSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SearchTerm
+        fields = ['searchTerm','userId']
 
 class CommentSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=30)
@@ -50,3 +55,11 @@ class FantasyPlayerSerializer(serializers.Serializer):
     firstName = serializers.CharField(max_length=35)
     lastName = serializers.CharField(max_length=35)
     officialImageSrc = serializers.CharField(max_length=500)
+    passing = serializers.CharField(max_length=500)
+    rushing = serializers.CharField(max_length=500)
+    receiving = serializers.CharField(max_length=500)
+
+class StatsSerializer(serializers.Serializer):
+    passing = serializers.CharField(max_length=35)
+    rushing = serializers.CharField(max_length=35)
+    receiving = serializers.CharField(max_length=35)
